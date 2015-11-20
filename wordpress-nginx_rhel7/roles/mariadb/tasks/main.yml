@@ -16,10 +16,15 @@
   template: src=my.cnf.j2 dest=/etc/my.cnf
   notify: 
   - restart mariadb
-  
+
+- name: Check if MariaDB log file exists already
+  stat: path=/var/log/mysqld.log
+  register: mdb_log_stat
+
 - name: Create MariaDB log file
   file: path=/var/log/mysqld.log state=touch owner=mysql group=mysql mode=0775
-  
+  when: not mdb_log_stat
+
 - name: Start MariaDB Service
   service: name=mariadb state=started enabled=yes
 
