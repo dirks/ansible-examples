@@ -34,27 +34,36 @@
 
 - name: set the SELinux policy for the Wordpress directory
   command: semanage fcontext -a -t httpd_sys_content_t "/srv/wordpress(/.*)?"
-  
+  changed_when: false
+
 - name: set the SELinux policy for wp-config.php
   command: semanage fcontext -a -t httpd_sys_script_exec_t "/srv/wordpress/wp-config\.php"
+  changed_when: false
 
 - name: set the SELinux policy for wp-content directory
   command: semanage fcontext -a -t httpd_sys_rw_content_t "/srv/wordpress/wp-content(/.*)?"
+  changed_when: false
 
 - name: set the SELinux policy for the *.php files
   command: semanage fcontext -a -t httpd_sys_script_exec_t "/srv/wordpress/.*\.php"
+  changed_when: false
 
 - name: set the SELinux policy for the Upgrade directory
   command: semanage fcontext -a -t httpd_sys_rw_content_t "/srv/wordpress/wp-content/upgrade(/.*)?"
+  changed_when: false
 
 - name: set the SELinux policy for the Uploads directory
   command: semanage fcontext -a -t httpd_sys_rw_content_t "/srv/wordpress/wp-content/uploads(/.*)?"
+  changed_when: false
 
 - name: set the SELinux policy for the wp-includes php files
   command: semanage fcontext -a -t httpd_sys_script_exec_t "/srv/wordpress/wp-includes/.*\.php"
+  changed_when: false
 
 - name: set the SELinux on all the Files
   command: restorecon -Rv /srv/wordpress
+  register: wp_se_fcontext_changed
+  changed_when: wp_se_changed.stdout != ""
 
 - name: Start php-fpm Service
   service: name=php-fpm state=started enabled=yes
