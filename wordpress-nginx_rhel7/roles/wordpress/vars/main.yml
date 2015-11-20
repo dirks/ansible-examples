@@ -1,0 +1,10 @@
+wp_fcontext_set: >
+  [ "/srv/wordpress(/.*)?                               all files          system_u:object_r:httpd_sys_content_t:s0 ",
+    "/srv/wordpress/.*\\.php                             all files          system_u:object_r:httpd_sys_script_exec_t:s0 ",
+    "/srv/wordpress/wp-config\\.php                      all files          system_u:object_r:httpd_sys_script_exec_t:s0 ",
+    "/srv/wordpress/wp-content(/.*)?                    all files          system_u:object_r:httpd_sys_rw_content_t:s0 ",
+    "/srv/wordpress/wp-content/upgrade(/.*)?            all files          system_u:object_r:httpd_sys_rw_content_t:s0 ",
+    "/srv/wordpress/wp-content/uploads(/.*)?            all files          system_u:object_r:httpd_sys_rw_content_t:s0 ",
+    "/srv/wordpress/wp-includes/.*\\.php                 all files          system_u:object_r:httpd_sys_script_exec_t:s0 "
+  ]
+

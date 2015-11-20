@@ -60,6 +60,11 @@
   command: semanage fcontext -a -t httpd_sys_script_exec_t "/srv/wordpress/wp-includes/.*\.php"
   changed_when: false
 
+- name: control local customizations of fcontext in /srv/wordpress
+  shell: semanage fcontext -l  -C | grep /srv/wordpress
+  register: wp_fcontext_is
+  changed_when: wp_fcontext_is.stdout_lines != {{ wp_fcontext_set }}
+
 - name: set the SELinux on all the Files
   command: restorecon -Rv /srv/wordpress
   register: wp_se_fcontext_changed
