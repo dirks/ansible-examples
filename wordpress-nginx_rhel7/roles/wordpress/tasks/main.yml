@@ -68,7 +68,7 @@
 - name: set the SELinux on all the Files
   command: restorecon -Rv /srv/wordpress
   register: wp_se_fcontext_changed
-  changed_when: wp_se_changed.stdout != ""
+  changed_when: wp_se_fcontext_changed.stdout != ""
 
 - name: Start php-fpm Service
   service: name=php-fpm state=started enabled=yes
