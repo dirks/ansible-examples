@@ -43,7 +43,11 @@ define('DB_COLLATE', '');
  * @since 2.6.0
  */
 
-{{ wp_salt.stdout }}
+{% if wp_salt_old.stdout %}
+{{ wp_salt_old.stdout }}
+{% else %}
+{{ wp_salt_new.stdout }}
+{% endif %}
 
 /**#@-*/
 

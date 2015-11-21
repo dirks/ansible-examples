@@ -12,10 +12,19 @@
 - name: Add user "wordpress"
   user: name=wordpress group=wordpress home=/srv/wordpress/
 
+- name: Check if WordPress config has random salt already
+  command: grep -A 7 -e "^define('AUTH_KEY'," /srv/wordpress/wp-config.php
+  register: wp_salt_old
+  changed_when: False
+  failed_when: False
+  tags:
+     - skip_for_newwpsalt
+
 - name: Fetch random salts for WordPress config
   local_action: command curl https://api.wordpress.org/secret-key/1.1/salt/
-  register: "wp_salt"
+  register: wp_salt_new
   sudo: no
+  when: wp_salt_old is undefined
 
 - name: Create WordPress database
   mysql_db: name={{ wp_db_name }} state=present
